@@ -11,7 +11,7 @@ export const getPagination = (query: any) => {
 
     let searchNameTerm: string = query.searchNameTerm || ''
     let searchLoginTerm: string = query.searchLoginTerm || ''
-    let searchEmailTerm: string = query.searchLoginTerm || ''
+    let searchEmailTerm: string = query.searchEmailTerm || ''
 
     return {page, limit, sortDirection,  sortBy, skip, searchNameTerm, searchLoginTerm, searchEmailTerm }
 }

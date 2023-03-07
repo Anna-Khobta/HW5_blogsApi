@@ -43,10 +43,14 @@ export const usersRepository = {
                     searchEmailTerm: string,
                     skip: number) {
 
+        console.log(searchLoginTerm)
+        console.log(searchEmailTerm)
         const filter = {
             $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
         }
+        console.log(filter.$or[0])
+        console.log(filter.$or[1])
         const findUsers = await usersCollection.find(
             filter,
             {projection: {_id: 0, password: 0}})
