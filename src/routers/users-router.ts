@@ -6,7 +6,6 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {getPagination} from "../functions/pagination";
 
 
-import {UserType} from "../repositories/db";
 import {usersService} from "../domain/users-service";
 import {usersRepository} from "../repositories/users-db-repositories";
 
@@ -46,6 +45,7 @@ usersRouter.post('/users',
 
         } else {
             return res.send(400)
+            // тут по идее надо сделать middleware на проверку
         }
 
     })
