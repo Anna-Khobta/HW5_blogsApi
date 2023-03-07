@@ -70,7 +70,7 @@ usersRouter.post("/auth/login",
 
         let checkUserInDb = await usersRepository.checkUserLoginOrEmail(req.body.loginOrEmail)
 
-        // TODO fix
+
 
         if (checkUserInDb) {
 
