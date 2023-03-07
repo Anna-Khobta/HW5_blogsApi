@@ -19,7 +19,7 @@ export const blogsService= {
         }
 
 
-        const newBlogWithoughtID = await  blogsRepository.createBlog(newBlog)
+        const newBlogWithoughtID = await blogsRepository.createBlog(newBlog)
         return newBlogWithoughtID
 
 

@@ -1,10 +1,6 @@
 import {blogsCollection, BlogType, postsCollection} from "./db";
 
 
-// const __products: ProductType[] = [{id: 1, title: 'tomato'}, {id: 2, title: 'orange'}]
-
-//export let blogs: BlogType[] = []
-
 export const blogsRepository = {
 
     async createBlog(newBlog: BlogType): Promise<BlogType | null> {

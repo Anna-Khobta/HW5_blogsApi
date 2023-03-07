@@ -20,12 +20,17 @@ export type PostType = {
 
 }
 
+export type UserType = {
+    id: string,
+    "login": string,
+    "email": string,
+    "createdAt": string
+}
+
 
 const mongoUri = process.env.mongoURI ||"mongodb://0.0.0.0:27017/?maxPoolSize=20&w=majority"
 
-
 //"mongodb+srv://AnnaKh:MJV7zwCjuKhpMOHg@cluster0.26ojfvx.mongodb.net/?retryWrites=true&w=majority"
-
 // "mongodb://0.0.0.0:27017/?maxPoolSize=20&w=majority"
 
 
@@ -33,6 +38,8 @@ const client = new MongoClient(mongoUri)
 const db = client.db("BlogsApi");
 export const blogsCollection = db.collection<BlogType>("Blogs");
 export const postsCollection = db.collection<PostType>("Posts");
+
+export const usersCollection = db.collection<UserType>("Users");
 
 export async function runDb () {
     try {
