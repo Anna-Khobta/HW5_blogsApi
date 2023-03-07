@@ -43,6 +43,11 @@ export const usersRepository = {
                     searchEmailTerm: string,
                     skip: number) {
 
+        const total = await usersCollection.countDocuments({
+            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+                {email: {$regex: searchEmailTerm, $options: 'i'}}]
+        })
+
         const findUsers = await usersCollection.find(
             {
                 $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
@@ -54,10 +59,7 @@ export const usersRepository = {
             .sort({[sortBy]: sortDirection})
             .toArray()
 
-        const total = await usersCollection.countDocuments({
-            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
-                {email: {$regex: searchEmailTerm, $options: 'i'}}]
-        })
+
 
         const pagesCount = Math.ceil(total / limit)
 
