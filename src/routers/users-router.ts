@@ -45,7 +45,7 @@ usersRouter.post('/users',
             res.status(201).send(newUser)
 
         } else {
-            return res.send(404)
+            return res.send(400)
         }
 
     })
