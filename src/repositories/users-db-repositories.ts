@@ -19,7 +19,8 @@ export const usersRepository = {
     async createUser(newUser: UserType): Promise<UserType | null> {
 
         const insertNewUserInDb = await usersCollection.insertOne(newUser)
-        const newUserWithoughtId = await usersCollection.findOne({id: newUser.id}, {projection: {_id: 0}})
+        const newUserWithoughtId = await usersCollection.findOne(
+            {id: newUser.id}, {projection: {_id: 0, password: 0}})
         return newUserWithoughtId
     },
 
