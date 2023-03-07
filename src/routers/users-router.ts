@@ -78,6 +78,8 @@ usersRouter.post("/auth/login",
 
             if (login) {
                 res.sendStatus(204)
+            } else {
+                res.sendStatus(401)
             }
         } else {
             res.sendStatus(401)

@@ -49,9 +49,10 @@ export const usersRepository = {
             .toArray()
 
         const total = await usersCollection.countDocuments({
-            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+            $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
         })
+
         const pagesCount = Math.ceil(total / limit)
 
         return {
