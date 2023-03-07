@@ -9,7 +9,9 @@ export const usersService= {
 
     async createUser(login:string, email:string, password: string): Promise <UserType | null> {
 
-        const hashPassword = bcrypt.hashSync(password, salt);
+        const hashPassword = await bcrypt.hash(password, salt)
+
+        // bcrypt.hashSync(password, salt);
 
         const newUser = {
             id: (+(new Date())).toString(),
@@ -24,16 +26,11 @@ export const usersService= {
 
     },
 
-    async loginUser(checkUserInDb:UserType, loginOrEmail: string, password: string): Promise <UserType | null> {
+    async loginUser(checkUserInDb:UserType, loginOrEmail: string, password: string): Promise <boolean> {
 
+        const validPassword: boolean = await bcrypt.compare(password, checkUserInDb.password)
 
-        const validPassword = bcrypt.compareSync(password, checkUserInDb.password)
-
-        if (!validPassword) {
-            return null
-        } else {
-            return checkUserInDb
-        }
+        return validPassword
 
     },
 

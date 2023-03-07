@@ -1,5 +1,4 @@
-import {BlogType, postsCollection, usersCollection, UserType} from "./db";
-import {usersService} from "../domain/users-service";
+import {usersCollection, UserType} from "./db";
 import {SortDirection} from "mongodb";
 
 export const usersRepository = {
