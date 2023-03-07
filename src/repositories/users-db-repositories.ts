@@ -1,4 +1,4 @@
-import {BlogType, usersCollection, UserType} from "./db";
+import {BlogType, postsCollection, usersCollection, UserType} from "./db";
 import {usersService} from "../domain/users-service";
 import {SortDirection} from "mongodb";
 
@@ -7,6 +7,18 @@ export const usersRepository = {
     async checkUser(login: string, email: string): Promise<UserType | null> {
 
         let foundUser = await usersCollection.findOne({$or: [{login: login}, {email: email}]})
+
+        if (foundUser) {
+            return foundUser
+        } else {
+            return null
+        }
+
+    },
+
+    async checkUserLoginOrEmail(loginOrEmail: string): Promise<UserType | null> {
+
+        let foundUser = await usersCollection.findOne({$or: [{login: loginOrEmail}, {email: loginOrEmail}]})
 
         if (foundUser) {
             return foundUser
@@ -31,7 +43,7 @@ export const usersRepository = {
                 $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                     {email: {$regex: searchEmailTerm, $options: 'i'}}]
             },
-            {projection: {_id: 0}})
+            {projection: {_id: 0, password: 0}})
             .skip(skip)
             .limit(limit)
             .sort({[sortBy]: sortDirection})
@@ -55,5 +67,10 @@ export const usersRepository = {
     async deleteUser(id: string): Promise<boolean> {
         const result = await usersCollection.deleteOne({id: id})
         return result.deletedCount === 1
+    },
+
+    async deleteAllUsers(): Promise<boolean> {
+        const result = await usersCollection.deleteMany({})
+        return result.acknowledged
     }
 }

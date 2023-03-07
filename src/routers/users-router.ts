@@ -1,7 +1,12 @@
 import {Request, Response, Router} from "express";
 
 import {authorizationMiddleware} from "../middlewares/authorization";
-import {loginValidation, emailValidation, passwordValidation} from "../middlewares/authentication";
+import {
+    loginValidation,
+    emailValidation,
+    passwordValidation,
+    loginOrEmailValidation
+} from "../middlewares/authentication";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {getPagination} from "../functions/pagination";
 
@@ -13,9 +18,6 @@ export const usersRouter = Router({})
 
 usersRouter.get('/users',
     authorizationMiddleware,
-    loginValidation,
-    emailValidation,
-    passwordValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
@@ -24,8 +26,6 @@ usersRouter.get('/users',
         const foundUsers = await usersRepository.findUsers(page, limit, sortDirection, sortBy, searchLoginTerm, searchEmailTerm, skip)
 
         res.status(200).send(foundUsers)
-
-
 })
 
 
@@ -47,7 +47,6 @@ usersRouter.post('/users',
             return res.send(400)
             // тут по идее надо сделать middleware на проверку
         }
-
     })
 
 usersRouter.delete('/users/:id',
@@ -61,4 +60,26 @@ usersRouter.delete('/users/:id',
         } else {
             res.send(404)
         }
+    })
+
+usersRouter.post("/auth/login",
+    loginOrEmailValidation,
+    passwordValidation,
+    inputValidationMiddleware,
+    async (req:Request, res: Response) => {
+
+        let checkUserInDb = await usersRepository.checkUserLoginOrEmail(req.body.loginOrEmail)
+
+        let login = null
+
+        if (checkUserInDb) {
+
+            login = await usersService.loginUser(checkUserInDb, req.body.loginOrEmail, req.body.password)
+
+        } if (login) {
+            res.send(202)
+        } else {
+            res.send(401)
+        }
+
     })

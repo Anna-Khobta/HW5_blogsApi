@@ -14,3 +14,9 @@ export const emailValidation = body("email")
     .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
 // .isEmail()
+
+export const loginOrEmailValidation = body("loginOrEmail")
+    .trim().not().isEmpty().withMessage("The loginOrEmail is empty")
+    .isLength({min:3, max:50}).withMessage("Error in length")
+
+

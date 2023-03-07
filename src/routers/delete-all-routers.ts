@@ -2,6 +2,7 @@ import {Request, Response, Router} from "express";
 
 import {blogsService} from "../domain/blogs-service";
 import {postsService} from "../domain/posts-service";
+import {usersService} from "../domain/users-service";
 
 export const deleteAllRouter = Router({})
 
@@ -13,9 +14,13 @@ deleteAllRouter.delete('/testing/all-data',
 
         const deleteAllPosts = await postsService.deleteAllPosts()
 
+        const deleteAllUsers = await usersService.deleteAllUsers()
+
         if (deleteAllBlogs) {
             if (deleteAllPosts) {
-                res.sendStatus(204)
+                if (deleteAllUsers) {
+                    res.sendStatus(204)
+                }
             }
         } else {
             res.sendStatus(404)
