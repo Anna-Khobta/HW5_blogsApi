@@ -31,6 +31,8 @@ export const usersService= {
 
         if (!validPassword) {
             return null
+        } else {
+            return checkUserInDb
         }
 
     },
