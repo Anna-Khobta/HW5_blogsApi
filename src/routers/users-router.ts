@@ -58,6 +58,8 @@ usersRouter.delete('/users/:id',
     const isDeleted = await usersService.deleteUser(req.params.id)
 
         if (isDeleted) {
+            res.send(204)
+        } else {
             res.send(404)
         }
     })
@@ -69,8 +71,6 @@ usersRouter.post("/auth/login",
     async (req:Request, res: Response) => {
 
         let checkUserInDb = await usersRepository.checkUserLoginOrEmail(req.body.loginOrEmail)
-
-
 
         if (checkUserInDb) {
 
