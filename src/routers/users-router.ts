@@ -20,7 +20,6 @@ export const usersRouter = Router({})
 
 usersRouter.get('/users',
     authorizationMiddleware,
-    inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
     const {page, limit, sortDirection, sortBy, searchLoginTerm, searchEmailTerm, skip} = getPagination(req.query)

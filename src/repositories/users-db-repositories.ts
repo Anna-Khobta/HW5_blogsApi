@@ -43,23 +43,19 @@ export const usersRepository = {
                     searchEmailTerm: string,
                     skip: number) {
 
-        const total = await usersCollection.countDocuments({
+        const filter = {
             $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
-        })
-
+        }
         const findUsers = await usersCollection.find(
-            {
-                $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
-                    {email: {$regex: searchEmailTerm, $options: 'i'}}]
-            },
+            filter,
             {projection: {_id: 0, password: 0}})
+            .sort({[sortBy]: sortDirection})
             .skip(skip)
             .limit(limit)
-            .sort({[sortBy]: sortDirection})
             .toArray()
 
-
+        const total = await usersCollection.countDocuments(filter)
 
         const pagesCount = Math.ceil(total / limit)
 

@@ -22,10 +22,10 @@ export type PostType = {
 
 export type UserType = {
     id: string,
-    "login": string,
-    "email": string,
-    "password": string,
-    "createdAt": string
+    login: string,
+    email: string,
+    password: string,
+    createdAt: string
 }
 
 
