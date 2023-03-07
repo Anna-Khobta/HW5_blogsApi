@@ -45,7 +45,7 @@ export const usersRepository = {
 
         const findUsers = await usersCollection.find(
             {
-                $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+                $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                     {email: {$regex: searchEmailTerm, $options: 'i'}}]
             },
             {projection: {_id: 0, password: 0}})
@@ -55,7 +55,7 @@ export const usersRepository = {
             .toArray()
 
         const total = await usersCollection.countDocuments({
-            $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
         })
 
