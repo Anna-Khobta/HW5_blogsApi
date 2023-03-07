@@ -1,9 +1,5 @@
 import {UserType} from "../repositories/db";
 import {usersRepository} from "../repositories/users-db-repositories";
-import e from "express";
-import {blogsRepository} from "../repositories/blogs-db-repositories";
-import {postsRepositories} from "../repositories/posts-db-repositories";
-import {passwordValidation} from "../middlewares/authentication";
 
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(5);
@@ -34,8 +30,7 @@ export const usersService= {
         const validPassword = bcrypt.compareSync(password, checkUserInDb.password)
 
         if (!validPassword) {
-            return null } else {
-            return checkUserInDb
+            return null
         }
 
     },

@@ -16,6 +16,8 @@ import {usersRepository} from "../repositories/users-db-repositories";
 
 export const usersRouter = Router({})
 
+
+
 usersRouter.get('/users',
     authorizationMiddleware,
     inputValidationMiddleware,
@@ -70,16 +72,15 @@ usersRouter.post("/auth/login",
 
         let checkUserInDb = await usersRepository.checkUserLoginOrEmail(req.body.loginOrEmail)
 
-        let login = null
-
         if (checkUserInDb) {
 
-            login = await usersService.loginUser(checkUserInDb, req.body.loginOrEmail, req.body.password)
+            let login = await usersService.loginUser(checkUserInDb, req.body.loginOrEmail, req.body.password)
 
-        } if (login) {
-            res.send(202)
+            if (!login) {
+                res.sendStatus(401)
+            }
         } else {
-            res.send(401)
+            res.sendStatus(202)
         }
 
     })
