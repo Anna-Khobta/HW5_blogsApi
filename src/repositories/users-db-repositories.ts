@@ -35,11 +35,17 @@ export const usersRepository = {
         return newUserWithoughtId
     },
 
-    async findUsers(page: number, limit: number, sortDirection: SortDirection, sortBy: string, searchLoginTerm: string, searchEmailTerm: string, skip: number) {
+    async findUsers(page: number,
+                    limit: number,
+                    sortDirection: SortDirection,
+                    sortBy: string,
+                    searchLoginTerm: string,
+                    searchEmailTerm: string,
+                    skip: number) {
 
         const findUsers = await usersCollection.find(
             {
-                $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+                $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                     {email: {$regex: searchEmailTerm, $options: 'i'}}]
             },
             {projection: {_id: 0, password: 0}})
@@ -49,7 +55,7 @@ export const usersRepository = {
             .toArray()
 
         const total = await usersCollection.countDocuments({
-            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+            $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
         })
 
