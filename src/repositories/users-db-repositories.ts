@@ -49,7 +49,7 @@ export const usersRepository = {
             .toArray()
 
         const total = await usersCollection.countDocuments({
-            $and: [{login: {$regex: searchLoginTerm, $options: 'i'}},
+            $or: [{login: {$regex: searchLoginTerm, $options: 'i'}},
                 {email: {$regex: searchEmailTerm, $options: 'i'}}]
         })
 
